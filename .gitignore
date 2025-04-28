@@ -5,6 +5,7 @@ MLOPS_FIRST_PROJECT.egg-info/
 "mygcpenv/" 
 "mygcpenv/" 
 mygcpenv/
+mygcpenv/
 __pycache__/
 *.pyc
 *.pyo
@@ -13,3 +14,4 @@ __pycache__/
 *.sqlite3
 .env
 .DS_Store
+
