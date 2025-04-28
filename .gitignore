@@ -4,3 +4,12 @@ logs/
 MLOPS_FIRST_PROJECT.egg-info/
 "mygcpenv/" 
 "mygcpenv/" 
+mygcpenv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+.env
+.DS_Store
