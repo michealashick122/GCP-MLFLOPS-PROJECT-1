@@ -2,7 +2,7 @@ pipeline {
     agent any 
 
     environment {
-        VENV = 'venv'
+        VENV_DIR = 'venv'
     }
 
     stages {
@@ -18,7 +18,7 @@ pipeline {
          stage('Setting up Python Virtual Environment and installing dependencies'){
             steps{
                 script{
-                    echo 'Setting up Python Virtual Environment and installing dependencies'
+                    echo 'Setting up Python Virtual Environment and installing dependencies.....'
                     sh '''
                     python -m venv ${VENV_DIR}
                     . ${VENV_DIR}/bin/activate
