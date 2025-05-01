@@ -1,4 +1,5 @@
 mygcpenv/
+venv/
 mlruns/
 logs/
 MLOPS_FIRST_PROJECT.egg-info/
