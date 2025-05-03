@@ -1,21 +1,22 @@
 FROM python:slim
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+WORKDIR /app
 
-WORKDIR / app
-
+# Install libgomp1 for LightGBM
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
-    && apt-get-clean \
-    && rm -rf /var/libs/apt/lists/*
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
+# Copy the application code
 COPY . .
 
-RUN pip install -no-cache-dir -e .
+# Install dependencies
+RUN pip install --no-cache-dir -e .
 
-RUN python pipeline/training_pipeline.py
-
+# Expose port
 EXPOSE 5000
-CMD ["python","application.py"]
+
+# Run the application
+CMD ["python", "application.py"]
 

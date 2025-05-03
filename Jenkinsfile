@@ -4,15 +4,15 @@ pipeline {
     environment {
         VENV_DIR = 'venv'
         GCP_PROJECT = 'vernal-maker-450801-b9'
-        GCLOUD_PATH = 'var/jenkins_home/gcloud-cloud-sdk/bin'
+        GCLOUD_PATH = '/var/jenkins_home/google-cloud-sdk/bin'
     }
 
     stages {
-        stage('Cloning GITHub Reposioory to Jenkins') {
+        stage('Cloning GITHub Repository to Jenkins') {
             steps {
                 script {
                     echo 'Cloning GITHUB Repository to Jenkins..................'
-                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-tocken', url: 'https://github.com/michealashick122/GCP-MLFLOPS-PROJECT-1.git']])
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHub-token', url: 'https://github.com/michealashick122/GCP-MLFLOPS-PROJECT-1.git']])
                 }
             }
         }
@@ -37,9 +37,7 @@ pipeline {
                     script {
                         echo 'Building and pushing docker image in GCR..................'
                         sh '''
-                        export PATH=${PATH}:${GCLOUD_PATH}
                         . ${VENV_DIR}/bin/activate
-                        export PATH=${PATH}:${GCLOUD_PATH}
                         gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
                         gcloud config set project ${GCP_PROJECT}
                         gcloud auth configure-docker --quiet
@@ -49,6 +47,12 @@ pipeline {
                     }
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
         }
     }
 }
