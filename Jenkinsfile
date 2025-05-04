@@ -48,6 +48,27 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploye to cloud run') {
+            steps {
+                withCredentials([file(credentialsId: 'gcp_key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                    script {
+                        echo 'Deploye to cloud run..................'
+                        sh '''
+                        . ${VENV_DIR}/bin/activate
+                        gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
+                        gcloud config set project ${GCP_PROJECT}
+                        gcloud run deploy mlops-project-1 \
+                            --image gcr.io/${GCP_PROJECT}/mlops-project-1:latest \
+                            --platform managed \
+                            --region us-central1 \
+                            --allow-unauthenticated \
+                            --project ${GCP_PROJECT} 
+                        '''
+                    }
+                }
+            }
+        }
     }
 
     post {
