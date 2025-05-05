@@ -42,10 +42,6 @@ pipeline {
                         gcloud config set project ${GCP_PROJECT}
                         gcloud auth configure-docker --quiet
                         
-                        # Clean up any dangling images
-                        docker system prune -f
-                        
-                        # Build with no-cache option
                         docker build --no-cache -t gcr.io/${GCP_PROJECT}/mlops-project-1:latest .
                         
                         # Push to GCR
