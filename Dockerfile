@@ -1,20 +1,25 @@
-FROM python:slim
+FROM python:3.9-slim
 
 WORKDIR /app
 
-# Install libgomp1 for LightGBM
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgomp1 \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libgomp1 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy the application code
+# Copy requirements first to leverage Docker cache
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application
 COPY . .
 
-# Install dependencies
-RUN pip install --no-cache-dir -e .
+# Set environment variables
+ENV PORT=8080
 
-# Expose port
+# Expose the port
 EXPOSE 8080
 
 # Run the application

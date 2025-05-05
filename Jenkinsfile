@@ -41,7 +41,14 @@ pipeline {
                         gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
                         gcloud config set project ${GCP_PROJECT}
                         gcloud auth configure-docker --quiet
-                        docker build -t gcr.io/${GCP_PROJECT}/mlops-project-1:latest .
+                        
+                        # Clean up any dangling images
+                        docker system prune -f
+                        
+                        # Build with no-cache option
+                        docker build --no-cache -t gcr.io/${GCP_PROJECT}/mlops-project-1:latest .
+                        
+                        # Push to GCR
                         docker push gcr.io/${GCP_PROJECT}/mlops-project-1:latest
                         '''
                     }
