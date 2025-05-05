@@ -15,7 +15,7 @@ COPY . .
 RUN pip install --no-cache-dir -e .
 
 # Expose port
-EXPOSE 5000
+EXPOSE 8080
 
 # Run the application
 CMD ["python", "application.py"]

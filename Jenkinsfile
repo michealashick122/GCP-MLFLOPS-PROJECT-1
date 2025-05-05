@@ -64,6 +64,7 @@ pipeline {
                             --region us-central1 \
                             --allow-unauthenticated \
                             --project ${GCP_PROJECT} 
+                            --port 8080
                         '''
                     }
                 }
